@@ -40,8 +40,13 @@
     </dependency>
     <dependency>
       <groupId>uk.co.brotherlogic.mdb</groupId>
-      <version>0.5.12-SNAPSHOT</version>
+      <version>0.5.13-SNAPSHOT</version>
       <artifactId>mdbcore</artifactId>
+    </dependency>
+     <dependency>
+      <groupId>jid3</groupId>
+      <version>0.46</version>
+      <artifactId>jid3</artifactId>
     </dependency>
   </dependencies>
   <build>

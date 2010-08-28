@@ -1,6 +1,7 @@
 package uk.co.brotherlogic.mdb;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
 public class Organiser {
 
 	/** The base location for all the music files */
-	public static final String BASE_LOC = "/usr/share/hancock_multimedia/music/";
+	public static final String BASE_LOC = "/home/simon/local/test/";
 
 	/**
 	 * Main method
@@ -45,6 +46,8 @@ public class Organiser {
 				System.out.println("Proc: " + f);
 				proc.process(f);
 			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
