@@ -12,7 +12,7 @@ import java.util.List;
 public class Organiser {
 
 	/** The base location for all the music files */
-	public static final String BASE_LOC = "/home/simon/local/test/";
+	public static final String BASE_LOC = "/usr/share/music/music/";
 
 	/**
 	 * Main method

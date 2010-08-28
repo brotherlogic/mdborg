@@ -33,7 +33,7 @@ public class Processor {
 		ID3V2Tag tags = file.getID3V2Tag();
 		boolean changed = false;
 		if (tags != null) {
-			System.err.println(tags);
+
 			if (tags.getArtist() == null
 					|| !tags.getArtist().equals(
 							r.getFormTrackArtist(trackNumber))) {
@@ -86,10 +86,10 @@ public class Processor {
 	private File moveDirectory(File f, Record r) throws IOException {
 		File baseDir = f.getParentFile();
 		File outDir = new File(Organiser.BASE_LOC + r.getFileAdd());
+		outDir.mkdirs();
 
-		String procString = "mv \"" + baseDir.getAbsolutePath() + "\" \""
-				+ outDir.getAbsolutePath() + "\"";
-		System.out.println("Running: " + procString);
+		String[] procString = new String[] {"mv",baseDir.getAbsolutePath() + "/*",outDir.getAbsolutePath()};
+		System.out.println("Running: " + outDir.getAbsolutePath() + " from " + baseDir.getAbsolutePath());
 		Runtime.getRuntime().exec(procString);
 		return new File(outDir, "CDout.txt");
 	}
