@@ -71,7 +71,7 @@
 	  </executions>
           <configuration>
             <executable>deploy.sh</executable>
-            <mainClass>uk.co.brotherlogic.mdb.mdborg.Organiser</mainClass>
+            <mainClass>uk.co.brotherlogic.mdb.Organiser</mainClass>
           </configuration>
 	</plugin>
       </plugins>

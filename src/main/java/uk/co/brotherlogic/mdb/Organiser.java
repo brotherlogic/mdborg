@@ -1,6 +1,7 @@
 package uk.co.brotherlogic.mdb;
 
 import java.io.File;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -30,10 +31,22 @@ public class Organiser {
 	/** Out file locator */
 	private final CDOutLocator locator = new CDOutLocator();
 
+	/** THe processor */
+	private final Processor proc = new Processor();
+
 	/**
 	 * Method to do all the work
 	 */
 	public final void run() {
 		List<File> cdOutFiles = locator.getLocations();
+		System.out.println("Checking " + cdOutFiles.size() + " files");
+		for (File f : cdOutFiles) {
+			try {
+				System.out.println("Proc: " + f);
+				proc.process(f);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

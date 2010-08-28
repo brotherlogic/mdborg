@@ -20,7 +20,7 @@ public class CDOutLocator {
 	public final List<File> getLocations() {
 		List<File> cdOutFiles = new LinkedList<File>();
 
-		searchBase(new File(Organiser.BASE_LOC), cdOutFiles);
+		searchBase(new File(Organiser.BASE_LOC + "/Trajan, Alan/"), cdOutFiles);
 
 		return cdOutFiles;
 	}
@@ -37,7 +37,7 @@ public class CDOutLocator {
 		for (File f : loc.listFiles())
 			if (f.isDirectory())
 				searchBase(f, cdOutFiles);
-			else if (f.getName().equals("CDOut.txt"))
+			else if (f.getName().equals("CDout.txt"))
 				cdOutFiles.add(f);
 	}
 
