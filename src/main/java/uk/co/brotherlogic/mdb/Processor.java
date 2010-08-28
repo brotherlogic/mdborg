@@ -72,7 +72,7 @@ public class Processor {
 				file.sync();
 			}
 		} else {
-			System.err.println("SETTING THE TAGS");
+			System.err.println("SETTING THE TAGS ANEW: " + f);
 			ID3V2_3_0Tag tag = new ID3V2_3_0Tag();
 			tag.setArtist(r.getFormTrackArtist(trackNumber));
 			tag.setAlbum(r.getTitle());
@@ -84,13 +84,12 @@ public class Processor {
 
 	}
 
-	private File moveDirectory(File f, Record r) throws IOException {
+    private File moveDirectory(File f, Record r) throws IOException,SQLException {
 		File baseDir = f.getParentFile();
 		File outDir = new File(Organiser.BASE_LOC + r.getFileAdd());
 		outDir.getParentFile().mkdirs();
 
 		String[] procString = new String[] {"mv",baseDir.getAbsolutePath(),outDir.getAbsolutePath()};
-		System.out.println("Running: " + procString[2] + " from " + procString[1]);
 		Process p = Runtime.getRuntime().exec(procString);
 		BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getErrorStream()));
 		String s = "";
@@ -98,7 +97,6 @@ public class Processor {
 		    System.err.println("DIR MOVE: " + s);
 		}
 		stdInput.close();
-		System.err.println("MOVED TO: " + outDir);
 		return new File(outDir, "CDout.txt");
 	}
 
@@ -114,13 +112,16 @@ public class Processor {
 	private void process(File f, int number) throws IOException, SQLException {
 		Record r = GetRecords.create().getRecord(number);
 
+		//Check that this record still exists
+		if (r == null)
+		    return;
+
 		String base = r.getFileAdd();
 		String aBase = f.getParentFile().getAbsolutePath().substring(
 				Organiser.BASE_LOC.length());
 
 		// Check the directory
 		if (!base.equals(aBase)) {
-			System.out.println("Directory mismatch");
 			f = moveDirectory(f, r);
 		}
 
@@ -135,7 +136,6 @@ public class Processor {
 
 				// See if we need to move the file
 				if (!strFilename.equals(tRep)) {
-				    System.err.println("MOVING TO: " + tRep);
 					String[] mover = new String[] {
 							"mv",
 							Organiser.BASE_LOC + r.getFileAdd()

@@ -20,7 +20,7 @@ public class CDOutLocator {
 	public final List<File> getLocations() {
 		List<File> cdOutFiles = new LinkedList<File>();
 
-		searchBase(new File(Organiser.BASE_LOC + "Gorky%27s Zygotic Mynci"), cdOutFiles);
+		searchBase(new File(Organiser.BASE_LOC), cdOutFiles);
 
 		return cdOutFiles;
 	}

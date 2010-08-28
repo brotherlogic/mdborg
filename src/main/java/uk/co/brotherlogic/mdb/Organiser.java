@@ -40,10 +40,8 @@ public class Organiser {
 	 */
 	public final void run() {
 		List<File> cdOutFiles = locator.getLocations();
-		System.out.println("Checking " + cdOutFiles.size() + " files");
 		for (File f : cdOutFiles) {
 			try {
-				System.out.println("Proc: " + f);
 				proc.process(f);
 			} catch (SQLException e) {
 				e.printStackTrace();
