@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -86,11 +87,18 @@ public class Processor {
 	private File moveDirectory(File f, Record r) throws IOException {
 		File baseDir = f.getParentFile();
 		File outDir = new File(Organiser.BASE_LOC + r.getFileAdd());
-		outDir.mkdirs();
+		outDir.getParentFile().mkdirs();
 
-		String[] procString = new String[] {"mv",baseDir.getAbsolutePath() + "/*",outDir.getAbsolutePath()};
-		System.out.println("Running: " + outDir.getAbsolutePath() + " from " + baseDir.getAbsolutePath());
-		Runtime.getRuntime().exec(procString);
+		String[] procString = new String[] {"mv",baseDir.getAbsolutePath(),outDir.getAbsolutePath()};
+		System.out.println("Running: " + procString[2] + " from " + procString[1]);
+		Process p = Runtime.getRuntime().exec(procString);
+		BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+		String s = "";
+		while ((s = stdInput.readLine()) != null) {
+		    System.err.println("DIR MOVE: " + s);
+		}
+		stdInput.close();
+		System.err.println("MOVED TO: " + outDir);
 		return new File(outDir, "CDout.txt");
 	}
 
@@ -127,6 +135,7 @@ public class Processor {
 
 				// See if we need to move the file
 				if (!strFilename.equals(tRep)) {
+				    System.err.println("MOVING TO: " + tRep);
 					String[] mover = new String[] {
 							"mv",
 							Organiser.BASE_LOC + r.getFileAdd()
@@ -134,6 +143,11 @@ public class Processor {
 							Organiser.BASE_LOC + r.getFileAdd()
 									+ File.separator + tRep };
 					Process p = Runtime.getRuntime().exec(mover);
+					BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
+					while (stdInput.readLine() != null) {
+					    //pass
+					}
+					stdInput.close();
 				}
 
 				File checkFile = new File(Organiser.BASE_LOC + r.getFileAdd()
