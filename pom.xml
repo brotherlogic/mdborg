@@ -55,7 +55,7 @@
 	  <target>1.6</target>
 	</configuration>
       </plugin>
-      
+    </plugins>
     <pluginManagement>
       <plugins>
 	<plugin>
@@ -73,11 +73,8 @@
             <executable>deploy.sh</executable>
             <mainClass>uk.co.brotherlogic.mdb.mdborg.App</mainClass>
           </configuration>
-	  
 	</plugin>
-
-
       </plugins>
     </pluginManagement>
-  </build>
+    </build>
 </project>
