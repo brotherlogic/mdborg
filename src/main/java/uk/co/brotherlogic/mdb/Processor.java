@@ -25,7 +25,23 @@ import uk.co.brotherlogic.mdb.record.Record;
  */
 public class Processor {
 
-	private void checkFile(File f, Record r, int trackNumber)
+	/**
+	 * Checks a single MP3 file
+	 * 
+	 * @param f
+	 *            THe location of the MP3 file
+	 * @param r
+	 *            The record to check against
+	 * @param trackNumber
+	 *            The track number this represents
+	 * @throws IOException
+	 *             If something goes wrong with reading
+	 * @throws ID3Exception
+	 *             If something goes wrong with the tags
+	 * @throws SQLException
+	 *             If something goes wrong with the DB
+	 */
+	private void checkFile(final File f, final Record r, final int trackNumber)
 			throws IOException, ID3Exception, SQLException {
 
 		MP3File file = new MP3File(f);
@@ -84,23 +100,51 @@ public class Processor {
 
 	}
 
-    private File moveDirectory(File f, Record r) throws IOException,SQLException {
+	/**
+	 * Moves a directory to the correct location
+	 * 
+	 * @param f
+	 *            The location of the CDout file
+	 * @param r
+	 *            The record to be moved
+	 * @return The new location of the CDout file
+	 * @throws IOException
+	 *             If something goes wrong with the moving process
+	 * @throws SQLException
+	 *             If something goes wrong with the database
+	 */
+	private File moveDirectory(final File f, final Record r)
+			throws IOException, SQLException {
 		File baseDir = f.getParentFile();
 		File outDir = new File(Organiser.BASE_LOC + r.getFileAdd());
-		outDir.getParentFile().mkdirs();
 
-		String[] procString = new String[] {"mv",baseDir.getAbsolutePath(),outDir.getAbsolutePath()};
+		if (!outDir.getParentFile().mkdirs())
+			System.err.println(outDir.getParentFile() + " already exists!");
+
+		String[] procString = new String[] { "mv", baseDir.getAbsolutePath(),
+				outDir.getAbsolutePath() };
 		Process p = Runtime.getRuntime().exec(procString);
-		BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getErrorStream()));
+		BufferedReader stdInput = new BufferedReader(new InputStreamReader(p
+				.getErrorStream()));
 		String s = "";
 		while ((s = stdInput.readLine()) != null) {
-		    System.err.println("DIR MOVE: " + s);
+			System.err.println("DIR MOVE: " + s);
 		}
 		stdInput.close();
 		return new File(outDir, "CDout.txt");
 	}
 
-	public void process(File f) throws IOException, SQLException {
+	/**
+	 * Processes a single CDout file
+	 * 
+	 * @param f
+	 *            The location of the CDout file
+	 * @throws IOException
+	 *             If something goes wrong with reading/writing
+	 * @throws SQLException
+	 *             If something goes wrong with the database
+	 */
+	public final void process(final File f) throws IOException, SQLException {
 		// Read the CDOut file
 		String[] lines = readLines(f);
 		if (lines.length == 1)
@@ -109,25 +153,40 @@ public class Processor {
 			process(f, Integer.parseInt(lines[3]));
 	}
 
-	private void process(File f, int number) throws IOException, SQLException {
+	/**
+	 * Process a record
+	 * 
+	 * @param f
+	 *            Location of the CDout file
+	 * @param number
+	 *            the id number of the record
+	 * @throws IOException
+	 *             If something goes wrong reading/writing
+	 * @throws SQLException
+	 *             If something goes wrong with the db
+	 */
+	private void process(final File f, final int number) throws IOException,
+			SQLException {
 		Record r = GetRecords.create().getRecord(number);
 
-		//Check that this record still exists
+		// Check that this record still exists
 		if (r == null)
-		    return;
+			return;
 
 		String base = r.getFileAdd();
 		String aBase = f.getParentFile().getAbsolutePath().substring(
 				Organiser.BASE_LOC.length());
 
 		// Check the directory
+		File newdir = f;
 		if (!base.equals(aBase)) {
-			f = moveDirectory(f, r);
+			newdir = moveDirectory(f, r);
 		}
 
-		System.out.println(r.getAuthor() + " - " + r.getTitle() + " => " + r.getNumber());
+		System.out.println(r.getAuthor() + " - " + r.getTitle() + " => "
+				+ r.getNumber());
 		// Now check the track names
-		for (File trackFile : f.getParentFile().listFiles())
+		for (File trackFile : newdir.getParentFile().listFiles())
 			if (trackFile.getName().endsWith(".mp3")) {
 				String strFilename = trackFile.getAbsolutePath().substring(
 						Organiser.BASE_LOC.length() + r.getFileAdd().length()
@@ -145,9 +204,11 @@ public class Processor {
 							Organiser.BASE_LOC + r.getFileAdd()
 									+ File.separator + tRep };
 					Process p = Runtime.getRuntime().exec(mover);
-					BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
-					while (stdInput.readLine() != null) {
-					    //pass
+					BufferedReader stdInput = new BufferedReader(
+							new InputStreamReader(p.getErrorStream()));
+					String s = "";
+					while ((s = stdInput.readLine()) != null) {
+						System.err.println("MOVE FILE: " + s);
 					}
 					stdInput.close();
 				}
@@ -164,7 +225,14 @@ public class Processor {
 			}
 	}
 
-	private String[] readLines(File f) {
+	/**
+	 * Reads the lines in a file
+	 * 
+	 * @param f
+	 *            File to read
+	 * @return an array of the lines
+	 */
+	private String[] readLines(final File f) {
 		List<String> stringList = new LinkedList<String>();
 		try {
 			BufferedReader reader = new BufferedReader(new FileReader(f));

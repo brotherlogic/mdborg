@@ -1,8 +1,6 @@
 package uk.co.brotherlogic.mdb;
 
 import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -13,6 +11,9 @@ public class Organiser {
 
 	/** The base location for all the music files */
 	public static final String BASE_LOC = "/usr/share/music/music/";
+
+	/** To avoid magic numbers */
+	private static final double MS_IN_A_S = 1000.0;
 
 	/**
 	 * Main method
@@ -26,7 +27,7 @@ public class Organiser {
 		long sTime = System.currentTimeMillis();
 		org.run();
 		System.out.println("Complete in "
-				+ (System.currentTimeMillis() - sTime) / 1000.0);
+				+ (System.currentTimeMillis() - sTime) / MS_IN_A_S);
 	}
 
 	/** Out file locator */
@@ -43,9 +44,8 @@ public class Organiser {
 		for (File f : cdOutFiles) {
 			try {
 				proc.process(f);
-			} catch (SQLException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
+			} catch (Exception e) {
+				System.err.println("Error in : " + f);
 				e.printStackTrace();
 			}
 		}
