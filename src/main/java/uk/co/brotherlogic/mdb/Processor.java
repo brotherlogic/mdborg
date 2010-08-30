@@ -183,6 +183,11 @@ public class Processor {
 			newdir = moveDirectory(f, r);
 		}
 
+		r.setRiploc(newdir.getAbsolutePath().substring(
+				Organiser.BASE_LOC.length()));
+		System.err.println("RIPLOC = " + r.getRiploc());
+		r.save();
+
 		// Now check the track names
 		for (File trackFile : newdir.getParentFile().listFiles())
 			if (trackFile.getName().endsWith(".mp3")) {
