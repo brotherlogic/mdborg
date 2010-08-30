@@ -183,8 +183,6 @@ public class Processor {
 			newdir = moveDirectory(f, r);
 		}
 
-		System.out.println(r.getAuthor() + " - " + r.getTitle() + " => "
-				+ r.getNumber());
 		// Now check the track names
 		for (File trackFile : newdir.getParentFile().listFiles())
 			if (trackFile.getName().endsWith(".mp3")) {
@@ -192,7 +190,6 @@ public class Processor {
 						Organiser.BASE_LOC.length() + r.getFileAdd().length()
 								+ 1);
 				int tNumber = Integer.parseInt(strFilename.substring(0, 3));
-				System.out.println("Track " + tNumber);
 				String tRep = r.getTrackRep(tNumber) + ".mp3";
 
 				// See if we need to move the file
