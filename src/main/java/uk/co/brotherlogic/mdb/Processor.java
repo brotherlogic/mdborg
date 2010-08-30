@@ -183,9 +183,7 @@ public class Processor {
 			newdir = moveDirectory(f, r);
 		}
 
-		r.setRiploc(newdir.getAbsolutePath().substring(
-				Organiser.BASE_LOC.length()));
-		System.err.println("RIPLOC = " + r.getRiploc());
+		r.setRiploc(newdir.getAbsolutePath());
 		r.save();
 
 		// Now check the track names
