@@ -2,6 +2,7 @@ package uk.co.brotherlogic.mdb;
 
 import java.io.File;
 import java.util.List;
+import uk.co.brotherlogic.mdb.Connect;
 
 /**
  * Main entry for the mdborg application
@@ -21,11 +22,12 @@ public class Organiser {
 	 * @param args
 	 *            no arguments
 	 */
-	public static void main(final String[] args) {
+	public static void main(final String[] args) throws Exception{
 		Organiser org = new Organiser();
 
 		long sTime = System.currentTimeMillis();
 		org.run();
+		Connect.getConnection().commitTrans();
 		System.out.println("Complete in "
 				+ (System.currentTimeMillis() - sTime) / MS_IN_A_S);
 	}

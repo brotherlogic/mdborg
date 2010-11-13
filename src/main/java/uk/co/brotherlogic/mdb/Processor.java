@@ -169,6 +169,8 @@ public class Processor {
 			SQLException {
 		Record r = GetRecords.create().getRecord(number);
 
+		System.out.println(r.getAuthor() + " - " + r.getTitle());
+
 		// Check that this record still exists
 		if (r == null)
 			return;
@@ -183,8 +185,10 @@ public class Processor {
 			newdir = moveDirectory(f, r);
 		}
 
-		r.setRiploc(newdir.getAbsolutePath());
+		
+		r.setRiploc(newdir.getParentFile().getAbsolutePath());
 		r.save();
+		
 
 		// Now check the track names
 		for (File trackFile : newdir.getParentFile().listFiles())
