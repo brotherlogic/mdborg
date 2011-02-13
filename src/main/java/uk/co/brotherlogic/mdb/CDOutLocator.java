@@ -37,7 +37,7 @@ public class CDOutLocator {
 		for (File f : loc.listFiles())
 			if (f.isDirectory())
 				searchBase(f, cdOutFiles);
-			else if (f.getName().equals("CDout.txt"))
+			else if (f.getName().equals("CDout.txt") && f.getAbsolutePath().contains("Jazz"))
 				cdOutFiles.add(f);
 	}
 

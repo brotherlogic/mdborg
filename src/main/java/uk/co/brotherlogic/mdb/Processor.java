@@ -145,6 +145,8 @@ public class Processor {
 	 *             If something goes wrong with the database
 	 */
 	public final void process(final File f) throws IOException, SQLException {
+	    
+	    System.err.println("Checking: " + f);
 		// Read the CDOut file
 		String[] lines = readLines(f);
 		if (lines.length == 1)
