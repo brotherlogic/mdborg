@@ -186,7 +186,8 @@ public class Processor {
 		}
 
 		if (!r.getRiploc().equals(newdir.getParentFile().getAbsolutePath())) {
-			System.err.println("Resetting riploc");
+			System.err.println("Resetting riploc: "
+					+ newdir.getParentFile().getAbsolutePath());
 			r.setRiploc(newdir.getParentFile().getAbsolutePath());
 			r.save();
 		}
