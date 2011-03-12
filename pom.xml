@@ -3,13 +3,13 @@
   <groupId>uk.co.brotherlogic.mdb</groupId>
   <artifactId>mdborg</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.2</version>
+  <version>0.1.2-SNAPSHOT</version>
   <name>mdb</name>
   <url>http://maven.apache.org</url>
 
   <scm>
-   <connection>scm:git:git://github.com/BrotherLogic/mdborg.git</connection>
-   <url>scm:git:git://github.com/BrotherLogic/mdborg.git</url>
+   <connection>scm:git:git@github.com:BrotherLogic/mdborg.git</connection>
+   <url>scm:git:git@github.com:BrotherLogic/mdborg.git</url>
   </scm>
 
   <distributionManagement>
