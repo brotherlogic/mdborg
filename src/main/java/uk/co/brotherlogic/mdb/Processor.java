@@ -185,7 +185,7 @@ public class Processor {
 			newdir = moveDirectory(f, r);
 		}
 
-		if (!r.getRiploc().equals(newdir.getParentFile().getAbsolutePath())) {
+		if (r.getRiploc() == null || (!r.getRiploc().equals(newdir.getParentFile().getAbsolutePath()))) {
 			System.err.println("Resetting riploc: from " + r.getRiploc()
 					+ " to " + newdir.getParentFile().getAbsolutePath());
 			r.setRiploc(newdir.getParentFile().getAbsolutePath());
