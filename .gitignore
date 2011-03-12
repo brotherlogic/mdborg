@@ -7,3 +7,5 @@ bin
 .fbprefs
 .checkstyle
 probs.txt
+out*.txt
+nohup.out

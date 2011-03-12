@@ -47,6 +47,7 @@ public class Organiser
    public final void run(String qualifier)
    {
       List<File> cdOutFiles = locator.getLocations(qualifier);
+      double count = 1.0;
       for (File f : cdOutFiles)
       {
          try
