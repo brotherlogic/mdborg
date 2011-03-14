@@ -180,12 +180,12 @@ public class Processor
    {
       Record r = GetRecords.create().getRecord(number);
 
-      // Don't adjust if we don't need to
-      if (r.getVersion().equals(Connect.getConnection().getVersionString()))
-         return;
-
       // Check that this record still exists
       if (r == null)
+         return;
+
+      // Don't adjust if we don't need to
+      if (r.getVersion().equals(Connect.getConnection().getVersionString()))
          return;
 
       String base = r.getFileAdd();
